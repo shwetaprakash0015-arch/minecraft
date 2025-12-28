@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minecraft Guide - Shaurya Raj</title>
+    <style>
+        :root {
+            --mc-green: #3b8526;
+            --mc-brown: #523b2e;
+            --mc-dark: #1d1d1d;
+            --mc-gray: #333333;
+            --text-main: #ffffff;
+        }
+
+        body {
+            background-color: #111;
+            color: var(--text-main);
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            margin: 0; padding: 0;
+        }
+
+        header {
+            background-color: var(--mc-green);
+            padding: 40px;
+            text-align: center;
+            border-bottom: 8px solid var(--mc-brown);
+        }
+
+        .creator-tag {
+            background: rgba(0,0,0,0.6);
+            padding: 8px 16px;
+            border: 2px solid #fff;
+            display: inline-block;
+            margin-top: 15px;
+            font-weight: bold;
+            color: #ffeb3b;
+        }
+
+        nav {
+            background: #222;
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 2px solid #555;
+        }
+
+        nav button {
+            background: #444;
+            color: #fff;
+            border: 2px solid #777;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        nav button.active {
+            background: var(--mc-green);
+            border-color: #ffeb3b;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .item-card {
+            display: flex;
+            background: var(--mc-gray);
+            margin-bottom: 20px;
+            border: 3px solid #000;
+            border-radius: 8px;
+            align-items: center;
+        }
+
+        .icon-area {
+            flex: 0 0 140px;
+            background: #000;
+            height: 140px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .icon-area img {
+            width: 80px;
+            height: 80px;
+            image-rendering: pixelated;
+        }
+
+        .info-area {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .info-area h3 { margin: 0; color: #ffeb3b; }
+
+        .recipe-box {
+            background: #111;
+            padding: 8px;
+            margin-top: 10px;
+            border-left: 3px solid var(--mc-green);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1 style="margin:0; text-shadow: 3px 3px #000;">MINECRAFT MASTER GUIDE</h1>
+    <div class="creator-tag">Created by Shaurya Raj</div>
+</header>
+
+<nav id="navbar"></nav>
+<div class="container" id="content"></div>
+
+<script>
+const BASE = "https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.19.3/assets/minecraft/textures";
+
+const pages = [
+    { title: "Page 1: The Basics", items: [
+        { name: "Crafting Table", img: `${BASE}/block/crafting_table_front.png`, desc: "The heart of crafting.", how: "4 Wood Planks." },
+        { name: "Furnace", img: `${BASE}/block/furnace_front_on.png`, desc: "Smelts and cooks items.", how: "8 Cobblestone." }
+    ]},
+    { title: "Page 2: Potion Brewing", items: [
+        { name: "Brewing Stand", img: `${BASE}/item/brewing_stand.png`, desc: "Creates magical potions.", how: "1 Blaze Rod + 3 Cobblestone." },
+        { name: "Glass Bottle", img: `${BASE}/item/glass_bottle.png`, desc: "Holds water and potions.", how: "3 Glass Blocks." }
+    ]},
+    { title: "Page 3: Village & Trade", items: [
+        { name: "Emerald", img: `${BASE}/item/emerald.png`, desc: "Used to trade with Villagers.", how: "Mined or Traded." },
+        { name: "Bell", img: `${BASE}/item/bell.png`, desc: "A village meeting signal.", how: "Found in Villages." }
+    ]},
+    { title: "Page 4: Mobs", items: [
+        // UPDATED: These use 'item' folder names for inventory-style heads
+        { name: "Creeper Head", img: "https://mc-heads.net/head/creeper", desc: "The iconic silent exploder.", how: "Drops if killed by a Charged Creeper." },
+        { name: "Skeleton Skull", img: "https://mc-heads.net/head/skeleton", desc: "An undead archer.", how: "Spawns in darkness." }
+    ]},
+    { title: "Page 5: The Nether", items: [
+        { name: "Obsidian", img: `${BASE}/block/obsidian.png`, desc: "Tough block for portals.", how: "Water + Lava source." },
+        { name: "Blaze Rod", img: `${BASE}/item/blaze_rod.png`, desc: "Source of Blaze Powder.", how: "Kill Blazes in Fortresses." }
+    ]},
+    { title: "Page 6: Anvil", items: [
+        { name: "Anvil", img: `${BASE}/block/anvil_top.png`, desc: "Repair tools and weapons.", how: "3 Iron Blocks + 4 Ingots." },
+        { name: "Iron Sword", img: `${BASE}/item/iron_sword.png`, desc: "Basic melee weapon.", how: "1 Stick + 2 Iron Ingots." }
+    ]},
+    { title: "Page 7: Enchanting", items: [
+        { name: "Enchanting Table", img: `${BASE}/block/enchanting_table_top.png`, desc: "Empowers gear with magic.", how: "2 Diamond + 4 Obsidian + Book." },
+        { name: "Lapis Lazuli", img: `${BASE}/item/lapis_lazuli.png`, desc: "Used for enchanting energy.", how: "Mined underground." }
+    ]},
+    { title: "Page 8: Experience", items: [
+        { name: "Bottle o' Enchanting", img: `${BASE}/item/experience_bottle.png`, desc: "Gives XP when broken.", how: "Trade with Clerics." },
+        { name: "Golden Apple", img: `${BASE}/item/golden_apple.png`, desc: "Heals and grants absorption.", how: "8 Gold + 1 Apple." }
+    ]},
+    { title: "Page 9: The End", items: [
+        { name: "Eye of Ender", img: `${BASE}/item/ender_eye.png`, desc: "Locates Strongholds.", how: "Ender Pearl + Blaze Powder." },
+        { name: "End Portal", img: `${BASE}/block/end_portal_frame_top.png`, desc: "Gateway to the End.", how: "Found in Strongholds." }
+    ]},
+    { title: "Page 10: Final Boss", items: [
+        // UPDATED: Reliable 3D head link and standard block path
+        { name: "Ender Dragon Head", img: "https://mc-heads.net/head/dragon", desc: "The ultimate trophy.", how: "Found on End Ships." },
+        { name: "Dragon Egg", img: `${BASE}/block/dragon_egg.png`, desc: "Rarest block in existence.", how: "Defeat the Ender Dragon." }
+    ]}
+];
+
+function loadPage(idx) {
+    const p = pages[idx];
+    let html = `<h2 style="text-align:center; color:var(--mc-green);">${p.title}</h2>`;
+    p.items.forEach(item => {
+        html += `
+        <div class="item-card">
+            <div class="icon-area"><img src="${item.img}" alt="${item.name}"></div>
+            <div class="info-area">
+                <h3>${item.name}</h3>
+                <p>${item.desc}</p>
+                <div class="recipe-box"><b>GET:</b> ${item.how}</div>
+            </div>
+        </div>`;
+    });
+    document.getElementById('content').innerHTML = html;
+    
+    const nav = document.getElementById('navbar');
+    nav.innerHTML = '';
+    pages.forEach((_, i) => {
+        const btn = document.createElement('button');
+        btn.innerText = "Page " + (i+1);
+        btn.className = (i === idx) ? 'active' : '';
+        btn.onclick = () => loadPage(i);
+        nav.appendChild(btn);
+    });
+}
+loadPage(0);
+</script>
+</body>
+</html>
